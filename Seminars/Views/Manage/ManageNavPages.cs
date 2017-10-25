@@ -13,6 +13,12 @@ namespace Seminars.Views.Manage
 
         public static string Index => "Index";
 
+        public static string Specialization => "Specialization";
+
+        public static string KeynoteTopics => "KeynoteTopics";
+
+        public static string BusinessTrainingTopics => "BusinessTrainingTopics";
+
         public static string ChangePassword => "ChangePassword";
 
         public static string ExternalLogins => "ExternalLogins";
@@ -20,6 +26,12 @@ namespace Seminars.Views.Manage
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
+        public static string SpecializationNavClass(ViewContext viewContext) => PageNavClass(viewContext, Specialization);
+
+        public static string KeynoteTopicsNavClass(ViewContext viewContext) => PageNavClass(viewContext, KeynoteTopics);
+
+        public static string BusinessTrainingTopicsNavClass(ViewContext viewContext) => PageNavClass(viewContext, BusinessTrainingTopics);        
 
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 

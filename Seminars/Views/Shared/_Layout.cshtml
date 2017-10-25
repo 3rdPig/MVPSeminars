@@ -1,70 +1,158 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Seminars</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>@ViewData["Title"] - MVP Seminars</title>
+    <link rel="icon" href="~/favicon.png" />
+    <environment names="Development">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+        <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link href="~/css/materialize-social.css" type="text/css" rel="stylesheet" media="screen,projection" />
+        <link rel="stylesheet" href="~/css/style.css" />
+        <script src="https://use.fontawesome.com/38c2001f70.js"></script>
     </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+    <environment names="Staging,Production">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css"
+              asp-fallback-href="~/css/materialize.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link href="~/css/materialize-social.css" type="text/css" rel="stylesheet" media="screen,projection" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+        <script src="https://use.fontawesome.com/38c2001f70.js"></script>
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Seminars</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
+    <ul id="services-drop" class="dropdown-content">
+        <li><a href="#!">MVP Blog Database</a></li>
+        <li><a href="/business-training">Business Training</a></li>
+        <li><a href="/keynote-speakers">Keynote Speakers</a></li>
+        <li><a class="dropdown-button-harassment" href="sexual-harassment-training" data-activates="harassment-drop">Sexual Harassment Training >></a></li>
+        <li><a class="dropdown-button-certs" href="/certifications" data-activates="cert-drop">Certifications >></a></li>
+    </ul>
+    <ul id="about-drop" class="dropdown-content">
+        <li><a href="#!">MVP Blog Database</a></li>
+        <li><a href="#!">Our Team</a></li>
+        <li><a href="#!">Testimonials</a></li>
+        <li><a class="dropdown-button-join" href="#!" data-activates="join-drop">Join MVP >></a></li>
+        <li><a href="#!">Topics Directory</a></li>
+    </ul>
+    <ul id="online-drop" class="dropdown-content">
+        <li><a class="dropdown-button" href="#!" data-activates="webinars-drop">Webinars >></a></li>
+        <li><a href="#!">Computer Training</a></li>
+        <li><a href="#!">Online Business Training</a></li>
+    </ul>
+    <ul id="webinars-drop" class="dropdown-content">
+        <li><a href="#!">Online</a></li>
+    </ul>
+    <ul id="join-drop" class="dropdown-content">
+        <li><a href="#!">Why Join MVP Seminars?</a></li>
+        <li><a href="#!">FAQ’s</a></li>">
+        <li><a href="#!">Speaker Tips</a></li>
+        <li><a href="#!">Who Can Join?</a></li>
+        <li><a href="#!">Speaker Compensation</a></li>
+    </ul>
+    <ul id="harassment-drop" class="dropdown-content">
+        <li><a class="cash-button" href="/ca-sexual-harassment-training-mandates" data-activates="cert-drop">California Sexual Harassment AB1825 >></a></li>
+        <li><a href="/sexual-harassment-by-state">Sexual Harassment By State</a></li>
+        <li><a href="#!">Online Sexual Harassment Training</a></li>
+    </ul>
+    <ul id="cert-drop" class="dropdown-content">
+        <li><a class="shrm-button" href="#!" data-activates="webinars-drop">SHRM Human Resource Certification >></a></li>
+        <li><a href="#!">Sexual Harassment</a></li>
+        <li><a class="nacm-button" href="#!" data-activates="webinars-drop">NACM Mediation Certification >></a></li>
+        <li><a href="#!">Corporate Universities</a></li>
+    </ul>
+    <ul id="cash-drop" class="dropdown-content">
+        <li><a href="#!">California Sexual Harassment Public Seminar Locations</a></li>
+    </ul>
+    <ul id="shrm-drop" class="dropdown-content">
+        <li><a href="#!">SHRM Workplace Essentials Training</a></li>
+        <li><a href="#!">SHRM Professional Credit Approved Courses</a></li>
+    </ul>
+    <ul id="nacm-drop" class="dropdown-content">
+        <li><a href="#!">Get NACM Certified As A Mediator</a></li>
+        <li><a href="#!">NACM Certified Mediation Trainer</a></li>
+        <li><a href="#!">Re-Certification Mediators and Mediation Trainers</a></li>
+    </ul>
+    <nav class="nav-extended light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <div class="row nav-row">                
                 @await Html.PartialAsync("_LoginPartial")
             </div>
+            <div class="row nav-row">                
+                <ul class="right hide-on-med-and-down main-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Browse Topics</a></li>
+                    <li><a class="dropdown-button" href="/our-services" data-activates="services-drop" data-hover="hover">Our Services<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-button" href="#!" data-activates="about-drop" data-hover="hover">About Us<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-button" href="#!" data-activates="online-drop" data-hover="hover">Online<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#"><i class="material-icons search">search</i></a></li>
+                </ul>                
+            </div>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - Seminars</p>
-        </footer>
-    </div>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @RenderBody()
+    <footer class="page-footer orange">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Company Bio</h5>
+                    <p class="grey-text text-lighten-4">
+                        Founded in 1978 by Dr. Ron Marquardt in response to the growing need for quality business trainers and keynote speakers.
+                        <em>“We guarantee that our keynote speakers, business training and consulting will have an immediate impact on your workplace, and employee success.” </em>
+                        Our NO-CHARGE customized monitoring and follow-up program are designed to reinforce your employee’s retention and performance.
+                    </p>
+
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Recent Articles</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Featured Listings</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; 2017 - MVP Seminars
+            </div>
+        </div>
+    </footer>
+
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/js/materialize.js" asp-append-version="true"></script>
+        <script src="~/js/init.js" asp-append-version="true"></script>
+        <script src="~/js/nav.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/footer.js" asp-append-version="true"></script>
     </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/js/materialize.js" asp-append-version="true"></script>
+        <script src="~/js/init.js" asp-append-version="true"></script>
+        <script src="~/js/nav.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/footer.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

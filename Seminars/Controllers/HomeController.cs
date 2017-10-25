@@ -5,11 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Seminars.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Seminars.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
+        [Route("")]
         public IActionResult Index()
         {
             return View();
@@ -21,7 +24,7 @@ namespace Seminars.Controllers
 
             return View();
         }
-
+        
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

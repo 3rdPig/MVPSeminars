@@ -1,0 +1,13 @@
+@model KeynoteTopicViewModel
+@{
+    ViewData["Title"] = "Keynote Topic";
+    ViewData.AddActivePage(ManageNavPages.KeynoteTopics);
+}
+
+<h4>@ViewData["Title"]</h4>
+
+@Model.TopicName
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

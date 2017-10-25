@@ -1,0 +1,28 @@
+﻿@model ManagePageViewModel
+@{
+    ViewData["Title"] = "Manage Pages";
+    Layout = "_Index";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3>@Model.Message</h3>
+<br />
+<a class="btn btn-primary add" href="/pages/add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create New</a>
+&nbsp;||&nbsp;
+<a href="/">Dashboard</a>
+<hr />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.Pages[0].Title)</th>
+            <th>@Html.DisplayNameFor(m => m.Pages[0].Url)</th>
+            <th>@Html.DisplayNameFor(m => m.Pages[0].PubDate)</th>
+            <th>@Html.DisplayNameFor(m => m.Pages[0].LastModified)</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr></tr>
+    </tbody>
+</table>

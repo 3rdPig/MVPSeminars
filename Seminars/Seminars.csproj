@@ -2,13 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <UserSecretsId>aspnet-Seminars-C5DF20BF-E656-4498-91DF-1A460E3E97AB</UserSecretsId>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
   </ItemGroup>
 
@@ -16,6 +18,15 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\BlogViewModels\" />
+    <Folder Include="Models\PageViewModels\" />
+    <Folder Include="Models\Upload\" />
+    <Folder Include="wwwroot\uploads\blogs\" />
+    <Folder Include="wwwroot\uploads\thumbnails\" />
+    <Folder Include="wwwroot\uploads\profilepics\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,13 @@
+@model BusinessTrainingTopicViewModel
+@{
+    ViewData["Title"] = "Business Training Topic";
+    ViewData.AddActivePage(ManageNavPages.BusinessTrainingTopics);
+}
+
+<h4>@ViewData["Title"]</h4>
+
+@Model.TopicName
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

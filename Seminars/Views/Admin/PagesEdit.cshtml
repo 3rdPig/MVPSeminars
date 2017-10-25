@@ -1,0 +1,49 @@
+﻿@model Seminars.Models.Page
+@{
+    ViewData["Title"] = "Edit Page";
+    ViewData["Message"] = "Edit this page then press submit.";
+}
+
+<h2>@ViewData["Title"]</h2>
+<p>@ViewData["Message"] - <a href="/admin/pages">Go Back</a></p>
+<input type="submit" value="Save" class="btn btn-primary" /><a href="/@Model.Url" class="btn btn-default" target="_blank">View Page</a>
+<hr />
+<br />
+<form asp-action="PagesEdit" class="form" >
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" id="pageId" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input class="form-control" asp-for="Title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Content" class="control-label"></label>
+        <textarea class="pageData" asp-for="Content"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Url" class="control-label"></label>
+        <input class="form-control" asp-for="Url" />
+        <span asp-validation-for="Url" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Status:</label>
+        <div class="radio">
+            <label>
+                <input type="radio" name="status" id="Published" asp-for="Status" value="0" checked />
+                Published
+            </label>
+        </div>
+        <div class="radio">
+            <label>
+                <input type="radio" name="status" id="Unpublished" asp-for="Status" value="1" />
+                Unpublished
+            </label>
+        </div>
+    </div>
+
+    <hr />
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a href="/pages">Cancel</a>
+</form>

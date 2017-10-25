@@ -1,0 +1,39 @@
+﻿@model ManagePageViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Manage Pages";
+    ViewData["Message"] = "Create a new page then press submit.";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+<br />
+<a class="btn btn-primary add" href="/admin/pagesadd"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Create New</a>
+&nbsp;||&nbsp;
+<a href="/admin">Dashboard</a>
+<hr />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Link</th>
+            <th>Publish Date</th>
+            <th>Last Modified</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pg in Model.Pages)
+        { 
+            <tr>
+                <td>@pg.Title</td>
+                <td>@pg.Url</td>
+                <td>@pg.PubDate</td>
+                <td>@pg.LastModified</td>
+                <td><a class="btn btn-default" asp-action="PagesEdit" asp-route-id="@pg.Id">Edit</a></td>
+                <td><button class="btn btn-danger">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>

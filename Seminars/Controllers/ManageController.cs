@@ -13,6 +13,12 @@ using Microsoft.Extensions.Options;
 using Seminars.Models;
 using Seminars.Models.ManageViewModels;
 using Seminars.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Seminars.Models.Upload;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Seminars.Data;
 
 namespace Seminars.Controllers
 {
@@ -25,6 +31,8 @@ namespace Seminars.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IFileProvider _fileProvider;
+        private readonly ApplicationDbContext _context;
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -33,13 +41,17 @@ namespace Seminars.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          IFileProvider fileProvider,
+          ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _fileProvider = fileProvider;
+            _context = context;
         }
 
         [TempData]
@@ -59,7 +71,15 @@ namespace Seminars.Controllers
                 Username = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                SpeakerName = user.SpeakerName,
+                Bio = user.Bio,
+                Education = user.Education,
+                Books = user.Books,
+                Courses = user.Courses,
+                Reviews = user.Reviews,
                 IsEmailConfirmed = user.EmailConfirmed,
+                State = user.State,
+                ProfileUrl = user.ProfileUrl,
                 StatusMessage = StatusMessage
             };
 
@@ -68,7 +88,7 @@ namespace Seminars.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(IndexViewModel model)
+        public async Task<IActionResult> Index(IndexViewModel model, IFormFile file)
         {
             if (!ModelState.IsValid)
             {
@@ -101,7 +121,66 @@ namespace Seminars.Controllers
                 }
             }
 
+            var speakername = user.SpeakerName;
+            if (model.SpeakerName != speakername)
+            {
+                user.SpeakerName = model.SpeakerName;
+            }            
+
+            var state = user.State;
+            if (model.State != state)
+            {
+                user.State = model.State;
+            }
+
+            var bio = user.Bio;
+            if (model.Bio != bio)
+            {
+                user.Bio = model.Bio;
+            }
+
+            var education = user.Education;
+            if (model.Education != education)
+            {
+                user.Education = model.Education;
+            }
+
+            var books = user.Books;
+            if (model.Books != books)
+            {
+                user.Books = model.Books;
+            }
+
+            var courses = user.Courses;
+            if (model.Courses != courses)
+            {
+                user.Courses = model.Courses;
+            }
+
+            var reviews = user.Reviews;
+            if (model.Reviews != reviews)
+            {
+                user.Reviews = model.Reviews;
+            }
+
+            // Handle the image upload
+            var profileurl = user.ProfileUrl;
+            if (model.ProfileUrl != profileurl)
+            {
+                var uploader = new ImageService(_fileProvider);
+                await uploader.UploadProfilePic(model.ProfilePic);
+
+                var filename = model.ProfilePic.GetFilename();
+
+                var path = filename.Replace('\\', '/');
+
+                user.ProfileUrl = path;
+            }
+
+            var setUser = await _userManager.UpdateAsync(user);
+
             StatusMessage = "Your profile has been updated";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -460,6 +539,125 @@ namespace Seminars.Controllers
             var model = new GenerateRecoveryCodesViewModel { RecoveryCodes = recoveryCodes.ToArray() };
 
             _logger.LogInformation("User with ID {UserId} has generated new 2FA recovery codes.", user.Id);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Specialization()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var speaker = await _userManager.GetUserAsync(User);
+
+            var query = from s in _context.Specialization
+                        where s.SpeakerId == speaker.Id
+                        select s;
+
+            List<Topic> topics = await _context.Topics.OrderBy(s => s.Name).ToListAsync();
+            List<Specialization> includedSpecs = query.OrderBy(s => s.Name).ToList<Specialization>();
+
+            List<Topic> excludedSpecs = new List<Topic>();
+
+
+            foreach (var t in topics)
+            {
+                var match = false;
+
+                foreach (var s in includedSpecs)
+                {
+                    
+                    if (s.TopicId == t.Id)
+                        match = true;
+                }
+
+                if (!match)
+                    excludedSpecs.Add(t);               
+            }
+
+            var model = new SpecializationViewModel
+            {
+                Topics = topics,
+                Speaker = speaker,
+                IncludedSpecs = includedSpecs,
+                ExcludedSpecs = excludedSpecs
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SpecializationAdd([FromBody]AddTopicToSpeakerViewModel topic)
+        {
+            var specialization = new Specialization
+            {
+                Name = topic.Name,
+                TopicId = topic.TopicId,
+                SpeakerId = topic.SpeakerId
+            };
+            _context.Specialization.Add(specialization);
+            _context.SaveChanges();
+
+            //Get the newly added Specialization and return the specialization id
+            var query = from s in _context.Specialization
+                        where s.SpeakerId == topic.SpeakerId
+                        where s.TopicId == topic.TopicId
+                        select s;
+
+            return Json(query.First());            
+        }
+
+        [HttpPost]
+        public IActionResult SpecializationDrop([FromBody]DropTopicToSpeakerViewModel topic)
+        {
+            var specialization = new Specialization
+            {
+                Id = topic.Id,
+                Name = topic.Name,
+                TopicId = topic.TopicId,
+                SpeakerId = topic.SpeakerId
+            };
+
+            _context.Specialization.Remove(specialization);
+            _context.SaveChanges();
+           
+            return Json("ok");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> KeynoteTopics()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new KeynoteTopicViewModel
+            {
+                TopicName = "Testing"
+            };
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> BusinessTrainingTopics()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var model = new BusinessTrainingTopicViewModel
+            {
+                TopicName = "Testing"
+            };
 
             return View(model);
         }

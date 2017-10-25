@@ -1,0 +1,17 @@
+﻿@model Seminars.Models.Page
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    
+</style>
+<div class="container-fluid page-head"><h2>@Html.DisplayFor(model => model.Title)</h2></div>
+<div class="container">
+    <div class="section">
+        
+        <div class="row">           
+            @Html.Raw(@Model.Content)
+        </div>
+    </div>
+</div>
